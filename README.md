@@ -1,10 +1,17 @@
-What I did to get this built using CodeBuild.
+FOr future updates try to merge in the changes from the original repo and update the build process as needed.  Keep the sample-buildproject.yaml and template.yaml files as they are.
 
-0. Fork the new repo into my github account
-1. Set up bucket sharp-layer-heic-v5 for code to live in
-2. Set up Role SharpHEICCodeBuildRole
+aws codebuild start-build --project-name sharp-heic-lambda-layer --region us-west-2 --profile hughesWeb2     
 
-3. Gave hughesWeb2 premission to run codebuild by attaching custom policy: CodeBuildPOLICY
+
+What I did to get this built using CodeBuild.  No idea why SAM commands aren't used but this is what Claude told me...
+
+0. Fork the new repo into my github account AND set up the local GH repo to point to this origin. 
+Ex. git remote set-url origin https://github.com/stokaace/sharp-heic-lambda-layer5.git
+
+1. Set up bucket sharp-layer-heic-v5 for code to live in (or reuse bucket???)
+2. Set up Role SharpHEICCodeBuildRole (or reuse this one?)
+
+3. Gave hughesWeb2 premission to run codebuild by attaching custom policy: CodeBuildPOLICY (in AWS)
 
 4. In template.yaml rename the export name in Outputs so it doesn't conflict with the previous version...
     Outputs:
