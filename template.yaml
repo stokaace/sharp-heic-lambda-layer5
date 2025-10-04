@@ -53,6 +53,6 @@ Resources:
 Outputs:
   SharpHEICLayerArn:
     Value: !Ref SharpHEICLayer
-    Description: ARN of the Sharp HEIC Lambda Layer
+    Description: ARN of the Sharp HEIC Lambda Layer v5
     Export:
-      Name: SharpHEICLayerArn
+      Name: SharpHEICLayerArnV5

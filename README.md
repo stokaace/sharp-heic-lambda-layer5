@@ -1,3 +1,50 @@
+What I did to get this built using CodeBuild.
+
+0. Fork the new repo into my github account
+1. Set up bucket sharp-layer-heic-v5 for code to live in
+2. Set up Role SharpHEICCodeBuildRole
+
+3. Gave hughesWeb2 premission to run codebuild by attaching custom policy: CodeBuildPOLICY
+
+4. In template.yaml rename the export name in Outputs so it doesn't conflict with the previous version...
+    Outputs:
+        SharpHEICLayerArn:
+            Value: !Ref SharpHEICLayer
+            Description: ARN of the Sharp HEIC Lambda Layer v5
+            Export:
+            Name: SharpHEICLayerArnV5
+
+5.Change the Source to the new forked Github repo in sample-buildproject.yaml
+
+6. Change the stack name Value to something unique to not conflict with the previous version in EnvironmentVariables to the sample-buildproject.yaml...
+        EnvironmentVariables:
+          - Name: STACK_NAME
+            Type: PLAINTEXT
+            Value: sharp-heic-lambda-layer-v5
+
+7. Deploy with this...
+
+aws cloudformation deploy \
+  --template-file sample-buildproject.yaml \
+  --stack-name sharp-heic-codebuild-v5 \
+  --parameter-overrides \
+    CodeBuildRole=arn:aws:iam::990816207588:role/SharpHEICCodeBuildRole \
+    DeploymentBucket=sharp-layer-heic-v5 \
+    SourceRepo=https://github.com/stokaace/sharp-heic-lambda-layer5 \
+  --region us-west-2 \
+  --profile hughesWeb2
+ 
+ 8. Then run the build with this...
+aws codebuild start-build --project-name sharp-heic-lambda-layer --region us-west-2 --profile hughesWeb2                 
+
+
+
+------------------------
+------------------------
+------------------------
+
+
+
 # Sharp for AWS Lambda (with HEIC support)
 AWS Lambda Layer providing [sharp](https://github.com/lovell/sharp) with HEIC (and WebP) support
 
